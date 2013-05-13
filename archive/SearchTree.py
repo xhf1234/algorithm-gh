@@ -40,16 +40,18 @@ class SearchTree(object):
                         continue
 
     def search(self, value):
-        r = [None];
+        r = None;
         def visit(node):
+            global r
             if node.value == value:
-                r[0] = node
+                r = node
                 return True
             return False
         self.__walk(self.root, visit)
-        return r[0]
+        return r
 
     def __minimum(self, node):
+        """ return minimun node of tree whose root is 'node' """
         p = node
         if p is None:
             return None
