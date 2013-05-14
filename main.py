@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from archive import combination
+import SimpleSort
 
 if __name__ == '__main__':
-    combination.main()
+    SimpleSort.main()
