@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import HeapSort
+from data import Heap
 
 if __name__ == '__main__':
-    HeapSort.main()
+    Heap.main()

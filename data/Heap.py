@@ -1,84 +1,140 @@
 #!/usr/bin/env python
+
+""" DataStructure Heap """
+
 from util.utils import swap
 
 class Heap(object):
+    """
+    
+    size
+    extract_max()
+    max()
+    modify(index, value)
+    insert(value)
+
+    """
     size = None
+    _list = None
+    _cmp = None
 
     def __init__(self, cmp, list=None, size=None):
+        """
+
+        cmp, a compare function, if cmp(a, b)>0 then a will at the top of b
+        list, init list data
+        size, the real size of this heap, size<=len(list)
+
+        """
         self._cmp = cmp
-        if list is not None:
-            self._list = list
-            if size is None:
-                size = len(list)
-            self.size = size
-            self._createHeap()
-        else:
+        if list is None:
             self._list = []
             self.size = 0
+        else:
+            self._list = list
+            if size is None:
+                size = len(self._list)
+            self.size = size
+            self._build_heap()
 
-    def extract_min(self):
+    def max(self):
+        """ return the top element """
         if self.size == 0:
             return None
+        return self._list[0]
+
+    def extract_max(self):
+        """ return and remove the top element """
+        if self.size == 0:
+            return None
+        max = self._list[0]
         swap(self._list, 0, self.size-1)
         self.size = self.size-1
-        self._heapify(0)
-        return self._list[self.size]
+        if self.size > 1:
+            self._down_heapify(0)
+        return max
+
+    def modify(self, index, value):
+        """ set the new value to the element in the given index, use top_heapify or down_heapify to rebuild the heap """
+        oldValue = self._list[index]
+        self._list[index] = value
+        if self._cmp(value, oldValue) > 0:
+            self._top_heapify(index)
+        elif self._cmp(value, oldValue) < 0:
+            self._down_heapify(index)
 
     def insert(self, value):
-        index = self.size
-        self._list.insert(index, value)
+        """ insert a new value and rebuild the heap """
+        self._list.insert(self.size, value)
         self.size = self.size + 1
-        parent = self._getParent(index)
-        while parent>=0 and self._lessThan(index, parent):
-            swap(self._list, parent, index)
-            index = parent
-            parent = self._getParent(index)
+        self._top_heapify(self.size-1)
 
-    def _createHeap(self):
-        for i in range((self.size-1)/2, -1, -1):
-            self._heapify(i)
+    def _build_heap(self):
+        start = (self.size-1)/2
+        for i in range(start, -1, -1):
+            self._down_heapify(i)
 
-    def _getParent(self, index):
-        return (index-1)/2
-    
-    def _heapify(self, index):
-        left = 2*index + 1
-        right = 2*index + 2
-        min = index
-        size = self.size
-        if (left<size and self._lessThan(left, min)):
-            min = left
-        if (right<size and self._lessThan(right, min)):
-            min = right
-        if (min != index):
-            swap(self._list, min, index)
-            self._heapify(min)
+    def _top_heapify(self, index):
+        parent = (index-1)/2
+        if parent>=0 and self._is_bigger(index, parent):
+            swap(self._list, index, parent)
+            self._top_heapify(parent)
 
-    def _lessThan(self, i, j):
-        return self._cmp(self._list[i], self._list[j]) < 0
+    def _down_heapify(self, index):
+        left = index*2+1
+        right = left+1
+        max = index
+        if left<self.size and self._is_bigger(left, max):
+            max = left
+        if right<self.size and self._is_bigger(right, max):
+            max = right 
+        if max != index:
+            swap(self._list, max, index)
+            self._down_heapify(max)
+
+    def _is_bigger(self, i, j):
+        return self._cmp(self._list[i], self._list[j]) > 0
+
+
+def _CMP_MIN(i, j):
+    if i > j:
+        return -1
+    if i < j:
+        return 1
+    return 0
+
 
 class MinHeap(Heap):
-    def __init__(self, list=None):
-        def cmp(u, v):
-            if u<v:
-                return -1
-            if u>v:
-                return 1
-            return 0
-        super(MinHeap, self).__init__(cmp, list)
+
+    def __init__(self, list=None, size=None):
+        super(MinHeap, self).__init__(_CMP_MIN, list, size)
+
+
+def _CMP_MAX(i, j):
+    if i < j:
+        return -1
+    if i > j:
+        return 1
+    return 0
+
 
 class MaxHeap(Heap):
-    def __init__(self, list=None):
-        def cmp(u, v):
-            if u>v:
-                return -1
-            if u<v:
-                return 1
-            return 0
-        super(MaxHeap, self).__init__(cmp, list)
+
+    def __init__(self, list=None, size=None):
+        super(MaxHeap, self).__init__(_CMP_MAX, list, size)
+
 
 def main():
-    tList = [4,2,8,1,6,9,3,7,5, 0]
-    heap = MinHeap(tList)
+    list_ = [4,2,8,1,6,9,3,7,5, 0]
+    heap = MaxHeap(list_)
+    print 'max =', heap.max()
+    heap.insert(10)
+    print 'max =', heap.max()
+    heap.modify(10, 11)
+    print 'max =', heap.max()
     while heap.size != 0:
-        print heap.extract_min()
+        print heap.extract_max()
+
+if __name__ == '__main__':
+    main()
+
