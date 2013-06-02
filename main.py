@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import SimpleSort
+import HeapSort
 
 if __name__ == '__main__':
-    SimpleSort.main()
+    HeapSort.main()
