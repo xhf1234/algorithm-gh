@@ -4,7 +4,7 @@ from util.utils import swap, randomList
 from BinarySearch import search
 
 def select_sort(tList):
-    if tList is None or len(tList) is 0:
+    if not tList:
         return
     for i in range(1, len(tList)):
         min = i-1
@@ -14,7 +14,7 @@ def select_sort(tList):
         swap(tList, i-1, min)
 
 def insert_sort(tList):
-    if tList is None or len(tList) is 0:
+    if not tList:
         return
     for i in range(1, len(tList)):
         t = tList[i]
@@ -28,7 +28,7 @@ def insert_sort(tList):
             tList[0] = t
 
 def binary_insert_sort(tList):
-    if tList is None or len(tList) is 0:
+    if not tList:
         return
     for i in range(1, len(tList)):
         t = tList[i]
@@ -38,7 +38,7 @@ def binary_insert_sort(tList):
         tList[idx] = t
 
 def bubble_sort(tList):
-    if tList is None or len(tList) is 0:
+    if not tList:
         return
     for i in range(len(tList)-1, 0, -1):
         exchange = False

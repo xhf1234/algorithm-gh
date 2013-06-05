@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from data import Heap
+import HillSort
 
 if __name__ == '__main__':
-    Heap.main()
+    HillSort.main()
