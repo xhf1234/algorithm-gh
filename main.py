@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import HillSort
+import SimpleSort 
 
 if __name__ == '__main__':
-    HillSort.main()
+    SimpleSort.main()

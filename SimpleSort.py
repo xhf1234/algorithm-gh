@@ -49,9 +49,35 @@ def bubble_sort(tList):
         if not exchange:
             break
 
+def merge_sort(tList):
+    if len(tList) <= 1:
+        return
+    mid = len(tList)/2
+    left = [tList[i] for i in range(mid)]
+    right = [tList[i] for i in range(mid, len(tList))]
+    merge_sort(left)
+    merge_sort(right)
+    i,j,k = 0,0,0
+    while i<len(left) and j<len(right):
+        if left[i] < right[j]:
+            tList[k] = left[i]
+            i += 1
+        else:
+            tList[k] = right[j]
+            j += 1
+        k += 1
+    while i<len(left):
+        tList[k] = left[i]
+        i += 1
+        k += 1
+    while j<len(right):
+        tList[k] = right[j]
+        j += 1
+        k += 1
+
 def main():
     tList = randomList(100)
-    bubble_sort(tList)
+    merge_sort(tList)
     print tList
 
 if __name__ == '__main__':
