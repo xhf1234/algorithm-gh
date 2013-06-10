@@ -12,3 +12,6 @@ def  randomList(n):
         k = random.randint(0, n-1)
         swap(tList, i, k)
     return tList
+
+def randomList_duplicate(n, max):
+    return [random.randint(0, max) for i in range(n)]
