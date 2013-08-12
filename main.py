@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import LinearTimeSort
+import OrderSelect
 
 if __name__ == '__main__':
-    LinearTimeSort.main()
+    OrderSelect.main()
